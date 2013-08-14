@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>site builder</title>
+    <meta charset="utf-8" />
+    <style type="text/css" media="screen">
+      .inline {
+        display: inline;
+      }
+      #background-color, #background-image {
+        display: none;
+      }
+      .select2-results .select2-result {
+        padding: 3px;
+      }
+      .select2-results .select2-result .select2-result-label {
+        text-align: center;
+      }
+      .select2-results .select2-result.dotted .select2-result-label {
+        border: 1px dotted #000;
+      }
+      .select2-results .select2-result.solid .select2-result-label {
+        border: 1px solid #000;
+      }
+      .select2-results .select2-result.dashed .select2-result-label {
+        border: 1px dashed #000;
+      }
+      .select2-results .select2-result.double .select2-result-label {
+        border: 3px double #000;
+      }
+      .select2-results .select2-result.groove .select2-result-label {
+        border: 5px groove #98bf21;
+      }
+      .select2-results .select2-result.ridge .select2-result-label {
+        border: 5px ridge #98bf21;
+      }
+      .select2-results .select2-result.inset .select2-result-label {
+        border: 5px inset #98bf21;
+      }
+      .select2-results .select2-result.outset .select2-result-label {
+        border: 5px outset #98bf21;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="element-setting">
+      <form id="basic-setting">
+        <fieldset>
+          <legend>Setting</legend>
+          <div class="width-setting">
+            <label for="width">width</label><input type="text" name="width" value="" id="width">
+          </div>
+          <div class="height-setting">
+            <label for="height">height</label><input type="text" name="height" value="" id="height">
+          </div>
+          <section class="padding-setting">
+            <header>padding</header>
+            <input type="text" name="padding-top" value="" id="padding-top" placeholder="padding-top"><input type="text" name="padding-right" value="" id="padding-right" placeholder="padding-right"><input type="text" name="padding-bottom" value="" id="padding-bottom" placeholder="padding-bottom"><input type="text" name="padding-left" value="" id="padding-left" placeholder="padding-left">
+          </section>
+          <section class="margin-setting">
+            <header>margin</header>
+            <input type="text" name="margin-top" value="" id="margin-top" placeholder="margin-top"><input type="text" name="margin-right" value="" id="margin-right" placeholder="margin-right"><input type="text" name="margin-bottom" value="" id="margin-bottom" placeholder="margin-bottom"><input type="text" name="margin-left" value="" id="margin-left" placeholder="margin-left">
+          </section>
+          <section class="background-setting">
+            <header>background</header>
+            <select name="background" id="background">
+              <option value="0" selected>none</option>
+              <option value="1">color</option>
+              <option value="2">image</option>
+              <option value="3">color&amp;image</option>
+            </select>
+            <div id="background-color">background-color:<div id="colorpicker-holder"></div></div>
+            <div id="background-image">
+              <div id="img-uploader"></div>
+              <img src="" alt="background-image"/>
+              <label for="Repeat">Repeat</label>
+              <select name="Repeat" id="Repeat">
+                <option value="no-repeat" selected>no-repeat</option>
+                <option value="repeat-x">repeat-x</option>
+                <option value="repeat-y">repeat-y</option>
+                <option value="repeat">repeat</option>
+              </select>
+              <div class="background-position">
+                <div class="label">background-position:</div>
+                <input type="text" name="position-left" id="position-left" placeholder="left"/>
+                <input type="text" name="position-top" id="position-top" placeholder="top"/>
+              </div>
+            </div>
+          </section>
+          <section class="border-setting">
+            <header>border</header>
+            <label for="same_border" class="inline">same border</label><input type="checkbox" name="same_border" id="same_border">
+            <div id="border-top">
+              <div class="label">border-top:</div>
+              <label for="border-top-type">border-type:</label>
+              <select id="border-top-type" class="border-type" name="border-top-type">
+                <option value="none" class="none">none</option>
+                <option value="dotted" class="dotted">dotted</option>
+                <option value="solid" class="solid">solid</option>
+                <option value="dashed" class="dashed">dashed</option>
+                <option value="double" class="double">double</option>
+                <option value="groove" class="groove">groove</option>
+                <option value="ridge" class="ridge">ridge</option>
+                <option value="inset" class="inset">inset</option>
+                <option value="outset" class="outset">outset</option>
+              </select>
+              <div id="border-top-color-holder" class="border-color"></div>
+              <label for="border-top-size">border-size</label><input type="number" name="border-top-size" value="" id="border-top-size" class="border-size"><span class="unit">px</span>
+            </div>
+            <div id="border-right">
+              <div class="label">border-right:</div>
+              <label for="border-right-type">border-type:</label>
+              <select id="border-right-type" class="border-type" name="border-right-type">
+                <option value="none" class="none">none</option>
+                <option value="dotted" class="dotted">dotted</option>
+                <option value="solid" class="solid">solid</option>
+                <option value="dashed" class="dashed">dashed</option>
+                <option value="double" class="double">double</option>
+                <option value="groove" class="groove">groove</option>
+                <option value="ridge" class="ridge">ridge</option>
+                <option value="inset" class="inset">inset</option>
+                <option value="outset" class="outset">outset</option>
+              </select>
+              <div id="border-right-color-holder" class="border-color"></div>
+              <label for="border-right-size">border-size</label><input type="number" name="border-right-size" value="" id="border-right-size" class="border-size"><span class="unit">px</span>
+            </div>
+            <div id="border-bottom">
+              <div class="label">border-bottom:</div>
+              <label for="border-bottom-type">border-type:</label>
+              <select id="border-bottom-type" class="border-type" name="border-bottom-type">
+                <option value="none" class="none">none</option>
+                <option value="dotted" class="dotted">dotted</option>
+                <option value="solid" class="solid">solid</option>
+                <option value="dashed" class="dashed">dashed</option>
+                <option value="double" class="double">double</option>
+                <option value="groove" class="groove">groove</option>
+                <option value="ridge" class="ridge">ridge</option>
+                <option value="inset" class="inset">inset</option>
+                <option value="outset" class="outset">outset</option>
+              </select>
+              <div id="border-bottom-color-holder" class="border-color"></div>
+              <label for="border-bottom-size">border-size</label><input type="number" name="border-bottom-size" value="" id="border-bottom-size" class="border-size"><span class="unit">px</span>
+            </div>
+            <div id="border-left">
+              <div class="label">border-left:</div>
+              <label for="border-left-type">border-type:</label>
+              <select id="border-left-type" class="border-type" name="border-left-type">
+                <option value="none" class="none">none</option>
+                <option value="dotted" class="dotted">dotted</option>
+                <option value="solid" class="solid">solid</option>
+                <option value="dashed" class="dashed">dashed</option>
+                <option value="double" class="double">double</option>
+                <option value="groove" class="groove">groove</option>
+                <option value="ridge" class="ridge">ridge</option>
+                <option value="inset" class="inset">inset</option>
+                <option value="outset" class="outset">outset</option>
+              </select>
+              <div id="border-left-color-holder" class="border-color"></div>
+              <label for="border-left-size">border-size</label><input type="number" name="border-left-size" value="" id="border-left-size" class="border-size"><span class="unit">px</span>
+            </div>
+          </section>
+        </fieldset>
+      </form>
+    </div>
+    <script src="js/colorpicker/colorpicker.js"></script>
+    <script src="js/fine-uploader/js/header.js"></script>
+    <script src="js/fine-uploader/js/util.js"></script>
+    <script src="js/fine-uploader/js/features.js"></script>
+    <script src="js/fine-uploader/js/promise.js"></script>
+    <script src="js/fine-uploader/js/button.js"></script>
+    <script src="js/fine-uploader/js/ajax.requester.js"></script>
+    <script src="js/fine-uploader/js/deletefile.ajax.requester.js"></script>
+    <script src="js/fine-uploader/js/handler.base.js"></script>
+    <script src="js/fine-uploader/js/window.receive.message.js"></script>
+    <script src="js/fine-uploader/js/handler.form.js"></script>
+    <script src="js/fine-uploader/js/handler.xhr.js"></script>
+    <script src="js/fine-uploader/js/paste.js"></script>
+    <script src="js/fine-uploader/js/uploader.basic.js"></script>
+    <script src="js/fine-uploader/js/dnd.js"></script>
+    <script src="js/fine-uploader/js/uploader.js"></script>
+    <script src="js/fine-uploader/js/jquery-plugin.js"></script>
+    <script src="js/fine-uploader/js/jquery-dnd.js"></script>
+    <script src="js/select2-3.3.1/select2.js"></script>
+    <script type="text/javascript">
+      var color = "ff0000";
+      var fillValues = function(target){
+        // init page components
+        $('.border-setting select').select2({"width": '200px'});
+        $('.border-color').each(function(){
+          $(this).ColorPicker({flat: true});
+        });
+        var styles = $(target).data('style');
+        console.log('styles:' + styles);
+        fillValue(styles, 'width');
+        fillValue(styles, 'height');
+        fillValue(styles, 'padding');
+        fillValue(styles, 'margin');
+        fillValue(styles, 'background');
+        fillValue(styles, 'border');
+      };
+$('#background').change(function(){
+  if(color.length === 3){
+    color += color;
+  }
+  if($(this).val() === "0"){
+    $('#background-color, #background-image').hide();
+  }else if($(this).val() === "1"){
+    if($('#colorpicker-holder').html() === ""){
+      $('#colorpicker-holder').ColorPicker({flat: true, color: color});
+    }else{
+      $('#cboxContent #element-setting #colorpicker-holder .colorpicker_hex input').val(color);
+    }
+    $('#background-color').show();
+    $('#background-image').hide();
+  }else if($(this).val() === "2"){
+    if($('#img-uploader .qq-uploader').length === 0){
+      fineUploaderInit($('#img-uploader'));
+    }
+    $('#background-image').show();
+    $('#background-color').hide();
+  }else{
+    if($('#colorpicker-holder').html() === ""){
+      $('#colorpicker-holder').ColorPicker({flat: true, color: color});
+    }else{
+      $('#cboxContent #element-setting #colorpicker-holder .colorpicker_hex input').val(color);
+    }
+    if($('#img-uploader .qq-uploader').length === 0){
+      fineUploaderInit($('#img-uploader'));
+    }
+    $('#background-color, #background-image').show();
+  }
+});
+$('#background-image #img-uploader').change(function(){
+  $('#background-image img').attr('src',$(this).val());
+});
+$('.border-setting #same_border').change(function(){
+  if($(this).is(':checked')){
+    $('#border-top div.label, #border-right, #border-bottom, #border-left').hide();
+  }else{
+    $('#border-top div.label, #border-right, #border-bottom, #border-left').show();
+  }
+});
+
+function fineUploaderInit(obj){
+  var errorHandler = function(event, id, fileName, reason, xhr) {
+    qq.log("id: " + id + ", fileName: " + fileName + ", reason: " + reason);
+  };
+
+  obj.fineUploader({
+    debug: true,
+    request: {
+      endpoint: "php/upload.php",
+    paramsInBody: true
+    },
+    chunking: {
+      enabled: true
+    },
+    resume: {
+      enabled: true
+    },
+    retry: {
+      enableAuto: true,
+    showButton: true
+    },
+    deleteFile: {
+      enabled: true,
+    endpoint: 'php/upload.php',
+    forceConfirm: true,
+    // params: {foo: "bar"}
+    },
+    display: {
+      fileSizeOnSubmit: true
+    },
+    paste: {
+      targetElement: $(document)
+    }
+  }).on('error', errorHandler)
+  .on('complete', function(event, id, fileName, responseJSON) {
+    console.log('complete');
+    if (responseJSON.success) {
+      console.log('success');
+      $('#background-image img').attr('src','php/uploads/'+fileName);
+    }
+  });
+}
+var fillValue = function(styles, property) {
+  if(styles !== undefined) {
+    var value = getPropertyVal(styles, property);
+    if(value === undefined || (value === "" && property !== 'border')){
+      return false;
+    }
+    if(property === "padding" || property === "margin") {
+      var values = value.split(' ');
+      var len = values.length;
+      if(len === 1) {
+        values[1] = values[2] = values[3] = values[0];
+      }else if(len === 2) {
+        values[2] = values[0];
+        values[3] = values[1];
+      }else if(len === 3) {
+        values[3] = values[1];
+      }
+      len = 0;
+      $('input[name^="' + property + '"]').each(function() {
+        $(this).val(values[len++] || "");
+        if( len === 4 ) {
+          return false;
+        }
+      });
+      return property;
+    }else if(property === "background"){
+      if($.trim(value) === 'none'){
+        return property;
+      }
+      if(value.search(/#[0-9a-fA-F]{3,6}/) !== -1){
+        $($('#background option')[1]).prop('selected', true);
+        color = value.match(/#[0-9a-fA-F]{3,6}/)[0].substring(1);
+        $('#background').trigger('change');
+        value = value.replace(/#[0-9a-fA-F]{3,6}/,"");
+      }
+      if(value.search(/url(.*)/) !== -1){
+        if($('#background').val() === "0"){
+          $($('#background option')[2]).prop('selected', true);
+        }else{
+          $($('#background option')[3]).prop('selected', true);
+        }
+        $('#background').trigger('change');
+        var url = value.match(/url\(.*\)/)[0];
+        url = url.substring(4,url.length-1).replace(/['"]/,"");
+        if(url !== ""){
+          $('#background-image img').attr('src',url).show();
+        }
+        value = value.replace(/url\(.*\)/,"");
+      }
+      if(value.search(/repeat-x/) !== -1){
+        $($('#Repeat option')[1]).prop('selected',true);
+        value = value.replace(/repeat-x/,"");
+      }else if(value.search(/repeat-y/) !== -1){
+        $($('#Repeat option')[2]).prop('selected',true);
+        value = value.replace(/repeat-y/,"");
+      }else if(value.search(/no-repeat/) !== -1){
+        $($('#Repeat option')[0]).prop('selected',true);
+        value = value.replace(/no-repeat/,"");
+      }else{
+        $($('#Repeat option')[3]).prop('selected',true);
+        value = value.replace(/repeat/,"");
+      }
+      value = $.trim(value);
+      if(value !== ""){
+        var pos = value.split(' ');
+        $('#position-left').val(pos[0]);
+        if(pos[1] !== undefined){
+          $('#position-top').val(pos[1]);
+        }
+      }
+    }else if(property === "border"){
+      var border = {};
+      if(styles.search(/border:/) !== -1){ // four borders are same
+        var values = value.split(' ');
+        values[2] = values[2].replace(/#/, '');
+        $('.border-setting select').select2("val", values[1]);
+        $('.border-color').each(function(){
+          if(values[2].length === 3){
+            values[2] += values[2];
+          }
+          $(this).children('.colorpicker').children('.colorpicker_hex').children('input').val(values[2]);
+        });
+        $('.border-size').each(function(){
+          $(this).val(values[0].substring(0, values[0].indexOf('px')));
+        });
+        $('#same_border').attr('checked', true);
+        $('#same_border').trigger('change');
+      }else{
+        if(styles.search(/border-top/) != -1){
+          var value = getPropertyVal(styles, 'border-top');
+          if(value === 'none'){
+            $('#border-top-type').select2('val', value);
+          }else{
+            var values = value.split(' ');
+            values[2] = values[2].replace(/#/, '');
+            if(values[2].length === 3){
+              values[2] += values[2];
+            }
+            $('#border-top-type').select2('val', values[1]);
+            $('#border-top-color-holder .colorpicker .colorpicker_hex input').val(values[2]);
+            $('#border-top-color-holder .colorpicker .colorpicker_hex input').trigger('change');
+            $('#border-top-size').val(values[0].substring(0, values[0].indexOf('px')));
+          }
+        }
+        if(styles.search(/border-right/) != -1){
+          var value = getPropertyVal(styles, 'border-right');
+          if(value === 'none'){
+            $('#border-top-type').select2('val', value);
+          }else{
+            var values = value.split(' ');
+            values[2] = values[2].replace(/#/, '');
+            if(values[2].length === 3){
+              values[2] += values[2];
+            }
+            $('#border-right-type').select2('val', values[1]);
+            $('#border-right-color-holder .colorpicker .colorpicker_hex input').val(values[2]);
+            $('#border-right-color-holder .colorpicker .colorpicker_hex input').trigger('change');
+            $('#border-right-size').val(values[0].substring(0, values[0].indexOf('px')));
+          }
+        }
+        if(styles.search(/border-bottom/) != -1){
+          var value = getPropertyVal(styles, 'border-bottom');
+          if(value === 'none'){
+            $('#border-top-type').select2('val', value);
+          }else{
+            var values = value.split(' ');
+            values[2] = values[2].replace(/#/, '');
+            if(values[2].length === 3){
+              values[2] += values[2];
+            }
+            $('#border-bottom-type').select2('val', values[1]);
+            $('#border-bottom-color-holder .colorpicker .colorpicker_hex input').val(values[2]);
+            $('#border-bottom-color-holder .colorpicker .colorpicker_hex input').trigger('change');
+            $('#border-bottom-size').val(values[0].substring(0, values[0].indexOf('px')));
+          }
+        }
+        if(styles.search(/border-left/) != -1){
+          var value = getPropertyVal(styles, 'border-left');
+          if(value === 'none'){
+            $('#border-top-type').select2('val', value);
+          }else{
+            var values = value.split(' ');
+            values[2] = values[2].replace(/#/, '');
+            $('#border-left-type').select2('val', values[1]);
+            $('#border-left-color-holder .colorpicker .colorpicker_hex input').val(values[2]);
+            $('#border-left-color-holder .colorpicker .colorpicker_hex input').trigger('change');
+            $('#border-left-size').val(values[0].substring(0, values[0].indexOf('px')));
+          }
+        }
+      }
+    }
+    $('input[name=' + property + ']').val(value);
+    return property;
+  }
+};
+    </script>
+  </body>
+</html>

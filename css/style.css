@@ -1,0 +1,57 @@
+header #template-toolbar {
+  height: 80px;
+  width: 100%;
+  background-color: #eee;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  padding: 0;
+  margin: 0;
+}
+
+header #template-toolbar li {
+  display: inline-block;
+}
+
+#template-main {
+  margin-top: 80px;
+  border: 1px solid #999;
+  position: relative;
+}
+
+#template-edit {
+  position: absolute;
+  display: none;
+  border: 1px solid #e33e23;
+}
+
+#template-edit #setting-panel ,
+#template-edit #setting-disable {
+  position: absolute;
+  top: -28px;
+}
+
+#template-edit #setting-panel {
+  color: gray;
+  display: none;
+}
+
+.popup-editor {
+  width: 98.8%;
+  height: 94%;
+  overflow: auto;
+}
+
+input.disabled {
+  background-color: #bbb !important;
+  color: #000 !important
+}
+
+.template-placeHolder {
+  background-image: url(images/holder.png);
+  color: #fff;
+}
+.template-placeHolder-light {
+  background-image: url(images/holder-light.png);
+}

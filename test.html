@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery: outerHTML demo</title>
+<link rel="stylesheet" href="../../master.css" media="screen" />
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1.10.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://www.yelotofu.com/labs/jquery/snippets/outerhtml/jquery.outerhtml.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+	$('button.print').click(function(){
+		var elem = ($('ul').length) ? 'ul' : 'p';
+		alert($(elem).outerHTML());
+	});
+
+	$('button.replace').click(function(){
+		$('ul').outerHTML('<p>Thank you!</p>');
+	});
+});
+</script>
+</head>
+
+<body>
+<div id="page">
+	<div id="header">
+		<h1>jQuery outerHTML demo page</h1>
+	</div>
+	<div id="content">
+	
+	<ul>
+		<li>Item 1</li>
+		<li>Item 2</li>
+		<li>Item 3</li>
+		<li>Item 4</li>
+	</ul>
+
+	<button class="print">Print</button>
+	<button class="replace">Replace</button>
+	
+	<p><a href="http://yelotofu.com/2008/08/jquery-outerhtml/">Read original blog post</a></p>
+	
+	</div>
+</div>
+
+</body>
+</html>
+
