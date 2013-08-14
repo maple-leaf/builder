@@ -55,3 +55,31 @@ input.disabled {
 .template-placeHolder-light {
   background-image: url(images/holder-light.png);
 }
+
+
+/* custom pqgrid style */
+.pq-row-select.ui-state-highlight {
+  background-color: #eee;
+  background-image: none;
+}
+div.pq-grid-footer.pq-pager button {
+  width: 16px;
+  height: 16px;
+  border: none;
+}
+div.pq-grid-footer.pq-pager button.first {
+  background: url(../js/grid/images/page-first-gray.gif) no-repeat;
+}
+div.pq-grid-footer.pq-pager button.prev {
+  background: url(../js/grid/images/page-prev-gray.gif) no-repeat;
+}
+div.pq-grid-footer.pq-pager button.next {
+  background: url(../js/grid/images/page-next-gray.gif) no-repeat;
+}
+div.pq-grid-footer.pq-pager button.last {
+  background: url(../js/grid/images/page-last-gray.gif) no-repeat;
+}
+div.pq-grid-footer.pq-pager button.refresh {
+  background: url(../js/grid/images/Refresh.gif) no-repeat;
+  display: none; // hide this to avoid data refresh error
+}

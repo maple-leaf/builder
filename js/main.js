@@ -346,6 +346,7 @@ $(function() {
     //Callback that fires right before attempting to load the target content.
     //pre-define functions which will be override by template setting page to null
     window.initTemplate = null;
+    window.insertModel = null;
     window.insertTemplate = null;
   },
   onComplete: function() {
@@ -365,8 +366,11 @@ $(function() {
       $('#cboxContent #cboxConfirm').click(function(){
         if(insertTemplate !== undefined && insertTemplate !== null) {
           insertTemplate($('#template-main').data('target'), source);
+          insertTemplate = null; // nulltify initTemplate , prevent it existing till next template call
+        }else if(insertModel !== undefined && insertModel !== null) {
+          insertTemplate($('#template-main').data('target'), source);
+          insertTemplate = null; // nulltify initTemplate , prevent it existing till next template call
         }
-        insertTemplate = null; // nulltify initTemplate , prevent it existing till next template call
         $('#cboxContent #cboxClose').trigger('click');
       });
     }else {

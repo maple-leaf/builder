@@ -3,33 +3,17 @@
 <head>
     <title>models</title>
     <meta charset="utf-8" />
+    <style type="text/css" media="screen">
+      .model-screenshot {
+        height: 100px;
+      }
+    </style>
 </head>
 <body>
   <div class="row-fluid" id="template-setting">
     <div class="span12" id="models-list">
     </div>
   </div>
-  <script type="text/javascript">
-     var initTemplate = function(){
-        var $flexigrid = $("#models-list").flexigrid({
-          url: "php/gridGetJSON.php",
-          dataType: 'json',
-            colModel : [
-            { display: "No", width: 20,  name: "No" },
-            { display: "Name", width: 100,  name: "name" },
-            { display: "Category", width: 100,  name: "category" },
-            { display: "Screenshot", width: 200, name: 'screenshot'},
-            { display: "Restrict", width: 300,  name: "restrict"},
-            { display: "Compatibility", width: 300,  name: "compatibility"},
-            { display: "Description", width: 300,  name: "description"}
-            ],
-            rp: 10,
-            useRp: true,
-            usepager: true,
-            title: 'Models',
-            singleSelect: true
-        });
-    };
-  </script>
+  <script src="templates/models/template-handler.js"></script>
 </body>
 </html>

@@ -175,7 +175,7 @@ var insertTemplate = function(parentSelector, path) {
       }
     }
   }
-}
+};
 
 function createData(obj) {
   var data = {};
