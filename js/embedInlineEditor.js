@@ -1,4 +1,5 @@
 $(function () {
+    "use strict";
     // Add a position-fixed handler
     var editorHtml ='<div id="embed-inline-editor-handler"> <style scoped id="embed-inline-editor-style"> #embed-inline-editor-handler { background-color: goldenrod; width: 40px; height: 40px; position: fixed; bottom: 40px; right: 0px;} </style></div> <div id="embed-inline-editor"> Can\'t connect to Server</div>';
     var styleMapping = {};
@@ -196,7 +197,7 @@ $(function () {
     function displayMatchingStyle(target, styleObj) {
         console.log(target);
         console.log(styleObj);
-        var parents = [];
+        var parents = [], patterns=[], pattern="", tmp="";
         $.each($(target).parents(),function (key, value) {;
                parents.push(getSelector(value));
         });
@@ -205,27 +206,65 @@ $(function () {
         console.log(targetWholeSelector);
 
         // Match target tag's style
-        var tagMatching = $.each(objKeyMatching(styleObj, "(((?!"+ target.tagName.toLowerCase() +").)*)" + target.tagName.toLowerCase() + "(((?!"+ target.tagName.toLowerCase() + ").)*)"), function(index, value){
-            return value.replace(/\s|,/g,'');
-        });
+        var tagName = target.tagName.toLowerCase();
+        /*
+         * Four conditions:
+         * div
+         * div , xxx
+         * xxx , div
+         * xxx , div , xxx
+         */
+        patterns = ["^"+ tagName +"$", "^\\s*" + tagName + "\\s*,.*", ".*,\\s*"+ tagName + "$", ".*,\\s*" + tagName + "\\s*,.*"];
+        var tagMatching = objKeyMatching(styleObj, patterns);
         console.log(tagMatching);
+
+        /* -- Match others relative style -- */
+
+        // Match [.class, tag.class, #id, tag#id, tag.class#id]
+        pattern = "^";
+        patterns.length = 0;
+        tmp = tagName + "\\|\\." + target.className.trim().replace('\s','\\|\\.') + "|#" + target.id.trim();
+        for(var i=0; i<tmp.match(/\|/).length; i++){
+            pattern += "(" + tmp + ")+";
+        }
+        pattern += "$";
+        var oneLevelSelectorMatching = objKeyMatching(styleObj, pattern);
+        console.log(oneLevelSelectorMatching);
+
+        // Match [xxx .class, xxx tag.class, xxx #id, xxx tag#id, xxx tag.class#id] OR xxx behind
     }
 
     // Get matching keys of a json obj using given pattern string
     function objKeyMatching(obj, pattern) {
+        var matches = [];
         if($.isArray(pattern)){
+            $.each(pattern, function(index, value){
+                var reg = new RegExp(value);
+                var match = Object.keys(obj).map(function(key) {
+                    if(reg.test(key)){
+                        return key;
+                    }else{
+                        return false;
+                    }
+                }).filter(function(item){
+                    return item !== false;
+                });
 
+                matches = matches.concat(match);
+            });
+        }else{
+            var reg = new RegExp(pattern);
+            matches = Object.keys(obj).map(function(key) {
+                if(reg.test(key)){
+                    return key;
+                }else{
+                    return false;
+                }
+            }).filter(function(item){
+                return item !== false;
+            });
         }
-        var reg = new RegExp(pattern);
-        return Object.keys(obj).map(function(key) {
-            if(reg.test(key)){
-                return key;
-            }else{
-                return false;
-            }
-        }).filter(function(item){
-            return item !== false;
-        });
-    }
 
-})
+        return matches;
+    }
+});
