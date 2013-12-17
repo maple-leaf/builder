@@ -1,0 +1,16 @@
+/*
+ * failReload.css
+ * Copyright (C) 2013 
+ *
+ * Distributed under terms of the MIT license.
+ */
+
+.failReload {
+	background: white;
+	color: black;
+}
+
+.last {
+    background: goldenrod; /* This should be appended */
+}
+
