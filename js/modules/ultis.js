@@ -160,10 +160,11 @@ define(['jquery'], function($){
             }).length > 0;
         });
 
-        return finalMatched.filter(function(key){
-            return styleObj[key]; /* TODO: return style nor key */
+        var matchedObj = {}
+        $.each(finalMatched,function(index, key){;
+            matchedObj[key] = styleObj[key];
         });
-        console.log(finalMatched);
+        return matchedObj;
     }
 
 
@@ -215,6 +216,7 @@ define(['jquery'], function($){
     /*  Style mapping function
      *  args: Array, json
      *  return: json
+     *  TODO: add file order
      */
     function createStyleMapping(fileQueue, styleMapping) {
         var styleMapping = styleMapping || {};
