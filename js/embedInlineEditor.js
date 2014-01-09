@@ -3,7 +3,7 @@ define(function(require){
     ultis = require('module/ultis'),
     fileIO = require('module/fileIO'),
     visualEditor = require('module/visualEditor'),
-    codeEditor = 'module/codeEditor';
+    codeEditor = require('module/codeEditor');
 
     $(function () {
         // Add a position-fixed handler
@@ -46,8 +46,10 @@ define(function(require){
                     $('#target-ele-childs').html(html);
 
                     var matchingStyle = ultis.getMatchingStyle(e.target, styleMapping);
-                    console.log('---------<<<<<');
-                    console.log(matchingStyle);
+                    if($('#embed-inline-editor-area .coder').is(':visible')){
+                        console.log(matchingStyle);
+                        codeEditor.displayMatchingStyle(matchingStyle);
+                    }
                 }
             });
         });

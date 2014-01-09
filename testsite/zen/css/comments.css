@@ -1,4 +1,7 @@
 /* COMMENTS ------------------------------------------------------------*/
+#logo {
+    max-width: 100%;
+}
 
 #comments-wrap a{
 	text-decoration: none;

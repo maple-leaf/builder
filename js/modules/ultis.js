@@ -5,7 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-define(['jquery'], function($){
+define(['jquery', 'underscore'], function($, _){
     // Get matching keys of a json obj using given pattern string
     function objKeyMatching(obj, pattern) {
         var matches = [];
@@ -214,16 +214,22 @@ define(['jquery'], function($){
     }
 
     /*  Style mapping function
-     *  args: Array, json
+     *  args: Array, json, number(used to make file's privilege)
      *  return: json
-     *  TODO: add file order
      */
-    function createStyleMapping(fileQueue, styleMapping) {
+    function createStyleMapping(fileQueue, styleMapping, givenPrivilege) {
         var styleMapping = styleMapping || {};
         if(!$.isArray(fileQueue)){
             return false;
         }
         $.each(fileQueue, function (index, file) {
+            var privilege;
+            if(givenPrivilege){
+                privilege = givenPrivilege;
+            }else{
+                privilege = index + 1;
+            }
+
             $.ajax({
                 url: file,
                 async: false
@@ -237,7 +243,8 @@ define(['jquery'], function($){
                     var stylePath = file.substring(0, file.lastIndexOf('/')+1);
                     $.each(importCss, function(index, value){
                         value = value.substring(value.indexOf('(')+1, value.indexOf(')')).replace(/'|"/g,"");
-                        styleMapping = createStyleMapping([stylePath + value], styleMapping);
+                        /* Only consider less than 10 file will be import in single css file */
+                        styleMapping = createStyleMapping([stylePath + value], styleMapping, parseFloat((privilege - (9 - index) * 0.1).toFixed(1)));
                     });
                     styles = styles.replace(/@import url\([^)]*\);/g,'');
                 }
@@ -249,6 +256,9 @@ define(['jquery'], function($){
                     var style = (value.substring(index+1,value.indexOf('}')-1)).trim();
                     var filemapping = {};
                     filemapping[file] = style;
+                    filemapping['privilege'] = privilege;
+                    /* this definition's order in this css file */
+                    filemapping['order'] = index;
                     if(styleMapping[selector]){
                         styleMapping[selector].push(filemapping);
                     }else{
@@ -258,16 +268,135 @@ define(['jquery'], function($){
                 fileQueue = jQuery.grep(fileQueue, function(value){
                     return value != file;
                 })
-                console.log(fileQueue);
             })
             .error(function(){
                 if(!confirm("Can't fetch file:" + file + "\nAbort this file?")) {
-                    styleMapping = createStyleMapping([file], styleMapping);
+                    styleMapping = createStyleMapping([file], styleMapping, privilege);
                 }
             });
         });
 
         return styleMapping;
+    }
+
+    /*
+     * Sort object by keys
+     * @param: Object
+     * @return: Object
+     * Reqirement: Items of object must have same structure
+     * Object is like this:
+     * {
+     * 'key1':value1,
+     * 'key2': value2
+     * }
+     */
+    function objSortByKey(obj) {
+        var keys = [];
+        var sortedObj = {};
+        for(var key in obj){
+            keys.push(key);
+        }
+        keys.sort().forEach(function(key){
+            sortedObj[key] = obj[key];
+        })
+        return sortedObj;
+    }
+    /*
+     * Sort object by values
+     * @param: Object
+     * @return: Object
+     * Reqirement: Items of object must have same structure
+     * values must be sortable type: number or string
+     * Object is like this:
+     * {
+     * 'key1':value1,
+     * 'key2': value2
+     * }
+     */
+    function objSortByValue(obj, reverse) {
+        var toArr = _.map(obj, function(v,k){
+            return [k,v];
+        });
+        var sortedArr = _.sortBy(toArr, function(v){
+            return v[1];
+        });
+        if(reverse)
+            sortedArr.reverse();
+        var sortedObj = {};
+        _.each(sortedArr, function(v){;
+               sortedObj[v[0]] = v[1];
+        });
+        return sortedObj;
+    }
+    /*
+     * Sort object using given keys
+     * @param: Object, Array
+     * @return: Object
+     * Reqirement: Items of object must have same structure
+     * values of given key must be sortable type: number or string
+     * Object is like this:
+     * {
+     * 'key1':{'key':value},
+     * 'key2': {'key', value}
+     * }
+     */
+    function objDeepLvSort(obj, keys) {
+    }
+    /*
+     * Sort object using given keys
+     * @param: Array, Array, Boolean
+     * @return: Object
+     * Reqirement: Items of object must have same structure
+     * values of given key must be sortable type: number or string
+     */
+    function sortObjArray(arr, keys, reverse) {
+        console.log(arr);
+        if(!reverse)
+            reverse = false;
+
+    }
+
+    /*
+     * Exchange key and value of obj
+     * @param: Object, Boolean
+     * @return: Object
+     * Reqirement: typeof value must be number or string, otherwise, return original obj
+     * Description: if there are some keys have same value and override is true, they will be replaced by new key after.
+     */
+    function exchangeKeyValue(obj, override) {
+        var rObj = {};
+        var override = override || true;
+        for(var key in obj){
+            var val = obj[key];
+            var typeofVal = $.type(val);
+            if(typeofVal !== "number" && typeofVal !== "string")
+                return false;
+            val = val.toString().trim();
+            if(override){
+                rObj[val] = key;
+            }else{
+                if(rObj.hasOwnProperty(val)){
+                    rObj[val + " "] = key;
+                }else{
+                    rObj[val] = key;
+                }
+            }
+        }
+        return rObj;
+    }
+
+    /* Convert obj to Array
+     * param: object
+     * return: array
+     */
+    function objToArr(obj){
+        var arr = [];
+        _.each(obj, function(v, k){
+            var item = {};
+            item[k] = v;
+            arr.push(item);
+        });
+        return arr;
     }
 
     return {
@@ -276,7 +405,10 @@ define(['jquery'], function($){
         "getMatchingStyle": getMatchingStyle,
         "getElementFromPoint": getElementFromPoint,
         "getDomTreeOfTargetNode": getDomTreeOfTargetNode,
-        "createStyleMapping": createStyleMapping
+        "createStyleMapping": createStyleMapping,
+        "sortObjArray": sortObjArray,
+        "exchangeKeyValue": exchangeKeyValue,
+        "objToArr": objToArr
     };
 });
 

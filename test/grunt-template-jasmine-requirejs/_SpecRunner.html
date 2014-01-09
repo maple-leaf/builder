@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Jasmine Spec Runner</title>
+
+  
+  <link rel="stylesheet" type="text/css" href=".grunt/grunt-contrib-jasmine/jasmine.css">
+  
+
+  <script src=".grunt/grunt-contrib-jasmine/require.js"></script>
+  <script>
+    require.onError = function(error) {
+      var message = error.requireType + ': ';
+      if (error.requireType === 'scripterror' || error.requireType === 'notloaded' && error.requireModules) {
+        message += 'Illegal path or script error: ' + '[\'' + error.requireModules.join("', '") + '\']';
+      } else {
+        message += error.message;
+      }
+
+      throw Error(message);
+    };
+  </script>
+
+  
+  
+  <script src=".grunt/grunt-contrib-jasmine/jasmine.js"></script>
+  
+  <script src=".grunt/grunt-contrib-jasmine/jasmine-html.js"></script>
+  
+  
+
+  <script>
+    
+
+    
+      require.config({
+  "config": {
+    "math": {
+      "description": "Math module (overridden)"
+    },
+    "sum": {
+      "description": "Sum module (overridden)"
+    },
+    "serializer": {
+      "regexp": /foo/,
+      "fn": function () { return ''; }
+    }
+  },
+  "shim": {
+    "nonRequireJsLib": {
+      "init": function () {
+        return this.nonRequireJsLib.noConflict();
+      }
+    },
+    "nonRequireJsLib2": {
+      "init": function () {
+        return this.nonRequireJsLib2.noConflict();
+      }
+    },
+    "fakeShim": {
+      "exports": "fakeShim",
+      "init": function () {
+            return "this is fake shim";
+          }
+    },
+    "underscore": {
+      "exports": "_"
+    }
+  },
+  "baseUrl": "./test/fixtures/requirejs/src/",
+  "callback": function anonymous() {
+
+        define('inlineModule', function() {
+          return 'this is inline module';
+        });
+      
+launchTest();
+}
+});
+    
+  </script>
+
+  <script>
+    function launchTest() {
+    require([
+      
+        
+        'app' ,
+      
+        
+        'build' ,
+      
+        
+        'fakeShim' ,
+      
+        
+        'math' ,
+      
+        
+        'nonRequireJsLib' ,
+      
+        
+        'nonRequireJsLib2' ,
+      
+        
+        'serializer' ,
+      
+        
+        'sum' ,
+      
+        
+        'underscore' 
+      
+    ],
+    function(){
+      require(['test/fixtures/requirejs/spec/ObjSortByValueSpec.js','test/fixtures/requirejs/spec/SetupSpec.js','test/fixtures/requirejs/spec/SumSpec.js','test/fixtures/requirejs/spec/UnderscoreLoadingSpec.js','test/fixtures/requirejs/spec/fakeShimSpec.js','test/fixtures/requirejs/spec/inlineModuleSpec.js','.grunt/grunt-contrib-jasmine/reporter.js'], function(){
+        require(['.grunt/grunt-contrib-jasmine/jasmine-helper.js'], function(){
+          // good to go! Our tests should already be running.
+        })
+      })
+    }
+    )
+  }
+  </script>
+
+  
+</head>
+<body>
+</body>
+</html>
