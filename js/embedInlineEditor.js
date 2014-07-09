@@ -18,7 +18,9 @@ define(function(require){
             $('#embed-inline-editor').css('display','block');
             $('link').each(function () {
                 console.log($(this).attr('href'));
-                ajaxQueue.push($(this).attr('href'));
+                if (this.href.indexOf('css') !== -1) {
+                    ajaxQueue.push($(this).attr('href'));
+                }
             });
             // Create style json mapping
             styleMapping = ultis.createStyleMapping(ajaxQueue);

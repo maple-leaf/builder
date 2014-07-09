@@ -238,6 +238,8 @@ define(['jquery', 'underscore'], function($, _){
                 styles = styles.replace(/\n/g,' ')
                 // remove comments
                 styles = styles.replace(/(?:\/\*(?:[\s\S]*?)\*\/)|(?:([\s;])+\/\/(?:.*)$)/g,'');
+                // remove @keyframes
+                styles = styles.replace(/@[^@]*?}\s*}/g, '');
                 var importCss= styles.match(/@import url\([^)]*\);/g);
                 if(importCss !== null){
                     var stylePath = file.substring(0, file.lastIndexOf('/')+1);
@@ -256,6 +258,12 @@ define(['jquery', 'underscore'], function($, _){
                     var style = (value.substring(index+1,value.indexOf('}')-1)).trim();
                     var filemapping = {};
                     filemapping[file] = style;
+                    filemapping['style'] = {};
+                    style.split(';').forEach(function(v, i){
+                        if (v === "") return;
+                        var css = v.trim().split(':');
+                        filemapping['style'][css[0].trim()] = css[1].trim();
+                    });
                     filemapping['privilege'] = privilege;
                     /* this definition's order in this css file */
                     filemapping['order'] = index;
